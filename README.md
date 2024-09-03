@@ -23,4 +23,4 @@ This project is organized into three main Python scripts, each dedicated to a sp
 
 - Black-Scholes.py: Implements the Black-Scholes model for European-style options.
 - Monte-Carlo.py: Uses Monte Carlo simulation to price options based on stochastic processes.
-- Finite_Difference.py: Utilizes the Finite Difference Method to solve the differential equations for pricing both European and American-style options.
+- Finite-Difference-Method.py: Utilizes the Finite Difference Method to solve the differential equations for pricing both European and American-style options.
