@@ -3,7 +3,7 @@ import numpy as np
 from scipy.stats import norm
 
 class blackScholesEquation:
-    def __init__(self, currentPrice: float, strikePrice: float, yearsToExpiration: int, riskFreeRate: float, volatility: float, optionType = str):
+    def __init__(self, currentPrice: float, strikePrice: float, yearsToExpiration: int, riskFreeRate: float, volatility: float, optionType: str, yearsElapsed: int):
         self.currentPrice = currentPrice
         self.strikePrice = strikePrice
         self.yearsToExpiration = yearsToExpiration
@@ -32,10 +32,23 @@ class blackScholesEquation:
             return (self.strikePrice * np.exp(-self.riskFreeRate * self.yearsToExpiration) * norm.cdf(-self.d2Calculation())) - (self.currentPrice * norm.cdf(-self.d1Calculation())) 
         else:
             raise ValueError("The option type must be either a call or put.")
+        
+    def getDelta(self):
+        if self.optionType == "call":
+            return norm.cdf(self.d1Calculation())
+        elif self.optionType == "put":
+            return norm.cdf(self.d1Calculation) - 1
+        else:
+            raise ValueError("The option type must be either a call or put.")
+        
+    def getGamma(self):
+        numerator = norm.pdf(self.d1Calculation())
+        denominator = self.currentPrice * self.volatility * ((self.yearsToExpiration - self.yearsElapsed)**0.5)
 
-
+        return numerator/denominator
+    
 def main():
-    model = blackScholesEquation(50, 45, 0.5, 0.05, 0.20, "put")
+    model = blackScholesEquation(75, 85, 1, 0.04, 0.50, "call")
 
     print(f'The fair market premium for this option is ${model.priceCalculation():.2f}.')
 
