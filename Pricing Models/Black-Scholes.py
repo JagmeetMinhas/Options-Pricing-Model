@@ -3,12 +3,13 @@ import numpy as np
 from scipy.stats import norm
 
 class blackScholesEquation:
-    def __init__(self, currentPrice: float, strikePrice: float, yearsToExpiration: int, riskFreeRate: float, volatility: float, optionType: str, yearsElapsed: int):
+    def __init__(self, currentPrice: float, strikePrice: float, yearsToExpiration: int, riskFreeRate: float, volatility: float, yearsElapsed: int, optionType: str):
         self.currentPrice = currentPrice
         self.strikePrice = strikePrice
         self.yearsToExpiration = yearsToExpiration
         self.riskFreeRate = riskFreeRate
         self.volatility = volatility
+        self.yearsElapsed = yearsElapsed
         self.optionType = optionType
 
     def getStrikePrice(self):
@@ -47,10 +48,17 @@ class blackScholesEquation:
 
         return numerator/denominator
     
+    def getVega(self):
+        return self.currentPrice * norm.pdf(self.d1Calculation()) *  ((self.yearsToExpiration - self.yearsElapsed)**0.5)
+    
 def main():
-    model = blackScholesEquation(75, 85, 1, 0.04, 0.50, "call")
+    model = blackScholesEquation(75, 85, 1, 0.04, 0.50, 0.5, "call")
 
-    print(f'The fair market premium for this option is ${model.priceCalculation():.2f}.')
+    print(f'The fair market premium for this option is ${model.priceCalculation():.2f} per share.')
+    print(f'The Greeks of this contract are:')
+    print(f'Delta - {model.getDelta():.2f}')
+    print(f'Gamma - {model.getGamma():.2f}')
+    print(f'Vega - {model.getVega():.2f}')
 
     """Does profit change if the option is a call or a put?"""
 
@@ -69,5 +77,7 @@ def main():
             print("No profit will be made at this price.")
 
         profitCalc = input("Would you like to try another theoretical profit calculation? (y/n)\n")
+
+    print("Program closed.")
 
 main()
