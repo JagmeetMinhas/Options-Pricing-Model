@@ -2,8 +2,9 @@
 import numpy as np
 from scipy.stats import norm
 
+#INCORPORATE DIVIDENDS!
 class blackScholesEquation:
-    def __init__(self, currentPrice: float, strikePrice: float, yearsToExpiration: int, riskFreeRate: float, volatility: float, yearsElapsed: int, optionType: str):
+    def __init__(self, currentPrice: float, strikePrice: float, yearsToExpiration: int, riskFreeRate: float, volatility: float, yearsElapsed: int, hasDividends: bool, optionType: str):
         self.currentPrice = currentPrice
         self.strikePrice = strikePrice
         self.yearsToExpiration = yearsToExpiration
@@ -50,7 +51,25 @@ class blackScholesEquation:
     
     def getVega(self):
         return self.currentPrice * norm.pdf(self.d1Calculation()) *  ((self.yearsToExpiration - self.yearsElapsed)**0.5)
-    
+
+    def getTheta(self):
+        numerator = self.currentPrice * norm.pdf(self.d1Calculation()) * self.volatility
+        denominator = 2 * ((self.yearsToExpiration - self.yearsElapsed)**0.5)
+
+        thirdTerm = self.riskFreeRate * self.strikePrice * (np.e**(self.riskFreeRate * (self.yearsToExpiration - self.yearsElapsed))) * norm.cdf(self.d2Calculation())
+
+        if self.optionType == "call":
+            return (numerator/denominator) - thirdTerm
+        else:
+            return (numerator/denominator) + thirdTerm
+        
+    def getRho(self):
+        if self.optionType == "call":
+            return self.strikePrice * (self.yearsToExpiration - self.yearsElapsed) * (np.e**(self.riskFreeRate * (self.yearsToExpiration - self.yearsElapsed))) * norm.cdf(self.d2Calculation())
+        else:
+            return -self.strikePrice * (self.yearsToExpiration - self.yearsElapsed) * (np.e**(self.riskFreeRate * (self.yearsToExpiration - self.yearsElapsed))) * norm.cdf(-self.d2Calculation())
+        
+        
 def main():
     model = blackScholesEquation(75, 85, 1, 0.04, 0.50, 0.5, "call")
 
@@ -59,8 +78,9 @@ def main():
     print(f'Delta - {model.getDelta():.2f}')
     print(f'Gamma - {model.getGamma():.2f}')
     print(f'Vega - {model.getVega():.2f}')
+    print(f'Theta - {model.getTheta():.2f}')
+    print(f'Rho - {model.getRho():.2f}')
 
-    """Does profit change if the option is a call or a put?"""
 
     profitCalc = input("Would you like to calculate your theoretical profit? (y/n)\n")
 
