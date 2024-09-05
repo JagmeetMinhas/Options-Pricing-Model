@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+
+<html lang = 'en'>
+    <head>
+        <meta charset = "UTF-8">
+        <meta name = "viewport" content = "width=device-width initial-scale = 1.0">
+        <title>Restaurant Classfication Model</title>
+        <!-- Hosting Bootstrap 5 CSS via CDN -->
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    </head>
+
+    <body>
+        <nav class="navbar navbar-expand-sm bg-dark navbar-dark">
+          <div class="container-fluid">
+            <a class="navbar-brand" href="/">Portfolio</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls = "navbarNav" aria-expanded = "False" aria-label="Toggle Navigation">
+              <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+              <ul class="navbar-nav">
+                <li class="nav-item">
+                  <a class="nav-link" href="/car_price_regression_model">Regression Model</a>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </nav>
+        <div class = "container mt-5">
+            <h1 class = "text-center">Restuarant Evaluation Classification Model</h1>
+
+            <h2>Price a European options contract!</h2>
+
+            <form method = 'post' action = '/classification_model'>
+                <!--Obtain the Average Cost For Two-->
+                <div class = "mb-3">
+                    <label for "avgCFT" class = "form-label">What is the average cost for two people at your restaurant?</label>
+                    <input type = "number" name = "avgCFT" class = "form-control" id = "avgCFT" placeholder = "Enter the cost">
+                </div>
+
+                <!--Determine whether there is online delivery-->
+                <div class = "mb-3">
+                    <label for "onlineDel" class = "form-label">Does your restaurant offer online delivery?</label>
+                    <select name = "onlineDel" class = "form-select" id = "onlineDel" required>
+                        <option selected disabled value = "" >Select option</option>
+                        <option value="Yes">Yes</option>
+                        <option value="No">No</option>
+                    </select>
+                </div>
+
+                <!--Determine if the restaurant is ordering now-->
+                <div class = "mb-3">
+                    <label for "currentDel" class = "form-label">Is your restaurant currently delivering, as in at this moment?</label>
+                    <select name = "currentDel" class = "form-select" id = "currentDel" required>
+                        <option selected disabled value = "" >Select option</option>
+                        <option value="Yes">Yes</option>
+                        <option value="No">No</option>
+                    </select>
+                </div>
+
+                <!--Determine whether there is seat booking-->
+                <div class = "mb-3">
+                    <label for "book" class = "form-label">Does your restaurant accept table/seat bookings (i.e. can you make a reservation)?</label>
+                    <select name = "book" class = "form-select" id = "onlineBook" required>
+                        <option selected disabled value = "" >Select option</option>
+                        <option value="Yes">Yes</option>
+                        <option value="No">No</option>
+                    </select>
+                </div>
+
+                <!--Determine whether there is online order menu-->
+                <div class = "mb-3">
+                    <label for "order" class = "form-label">Does your restaurant have an online menu ordering option?</label>
+                    <select name = "order" class = "form-select" id = "order" required>
+                        <option selected disabled value = "" >Select option</option>
+                        <option value="Yes">Yes</option>
+                        <option value="No">No</option>
+                    </select>
+                </div>
+
+                <!--Determine the price range-->
+                <div class = "mb-3">
+                    <label for "priceRange" class = "form-label">On a scale of 1 to 4, with 1 being the lowest and 4 being the highest, how expensive is your restaurant?</label>
+                    <select name = "priceRange" class = "form-select" id = "priceRange" required>
+                        <option selected disabled value = "" >Select option</option>
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value ="3">3</option>
+                        <option value = "4">4</option>
+                    </select>
+                </div>
+
+                <!--Submission button-->
+                <div class = "mb-3">
+                    <button type = "submit" class = "btn btn-primary">Submit!</button>
+                </div>
+            </form>
+
+            <br><br><br><br>
+
+            {% if classificationReturn %}
+                <div class = "mt-4">
+                    <h3>This restaurant has a classfication of: {{classificationReturn}}</h3>
+                </div>
+            {% endif %}
+
+        </div>
+
+
+        <!--Hosting Bootstrap 5 JS via CDN-->
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+    </body>
+</html>
