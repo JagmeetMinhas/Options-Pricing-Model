@@ -68,7 +68,13 @@ def main():
         price = float(input("Great! Provide the price you believe the asset will be at when the option will be exercised:\n"))
         while price < 0:
             raise ValueError("A price value can't be negative.")
-        profit = price - model.getStrikePrice() - model.priceCalculation()
+        
+        if model.optionType == "call":
+            profit = price - model.getStrikePrice() - model.priceCalculation()
+        else:
+            profit = model.getStrikePrice() - model.priceCalculation()
+
+        
         if profit < 0:
             print(f"At a price of ${price}, ${-profit:.2f} will be lost per share.")
         elif profit > 0:
