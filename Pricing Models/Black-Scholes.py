@@ -71,7 +71,7 @@ class blackScholesEquation:
         
         
 def main():
-    model = blackScholesEquation(75, 85, 1, 0.04, 0.50, 0.5, "call")
+    model = blackScholesEquation(75, 85, 1, 0.04, 0.50, 0.5, False, "call")
 
     print(f'The fair market premium for this option is ${model.priceCalculation():.2f} per share.')
     print(f'The Greeks of this contract are:')
